@@ -84,9 +84,8 @@ tapes n" << endl;
       * à cause de la déclaration ligne 14 du tableau avec taille 1, case = 0;
       * pour ci-dessous, je suppose qu'il faut une autre boucle for ? */
     /* Oui mais auparavant, il y a un pb: mon job ne sait que me demander 
-d'entrer
-     * des notes... il ne sait jamais quand c'est fini; dixit ternel et donc il
-     * ne passe jamais au for suivant: calcul des moyennes...
+     * d'entrer des notes... il ne sait jamais quand c'est fini; dixit ternel 
+     * et donc il ne passe jamais au for suivant: calcul des moyennes...
      * Alors quand se termine cette boucle ? Faudra poser la question: */
      /* cout << "Est-ce la dernière note ?" << endl; / qui => réponse booléenne.
      * En fait, faut aussi considérer que l'usager tape n'importe quoi, soit
