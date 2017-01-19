@@ -5,9 +5,12 @@
 using namespace std;
 
 // moyenneDesValeursEntrees2
-/* Calcul de la moyenne des valeurs contenues dans un tableau (dynamique)
- * tableau dynamique: vector<type>nom(taille); et en haut un include <vector> */
-/* vais avoir besoin de cette fonction pour qui entrerait n'importe quoi: */
+/* Calcul de la moyenne des valeurs contenues dans un tableau (dynamique) */
+/* vais avoir besoin de cette fonction pour qui entrerait n'importe quoi:  
+ *  soit pour rigoler, soit pour signifier que sa liste est terminée; 
+ * pour cela, Winjerome me donne un conseil très interessant par lien:
+ * http://cpp.developpez.com/faq/cpp/?page=Manipulation-de-la-console#
+ * Comment-verifier-les-valeurs-saisies-avec-cin que j'intègre ici: */
 bool read_choice( double & N )  /* fonction read_choice qui va se servir de
                                  * numeric_limits: alors include <limits> */
 {
@@ -38,25 +41,25 @@ bool read_choice( double & N )  /* fonction read_choice qui va se servir de
 
 int main()
 {
- // Je déclare un tableau que je nomme notesSur20:
 /*  vector<double> notesSur20;  / tableau vide: pas de parenthèses ni de
- * taille, ce qui => pb pour l'itération ligne 20 */
+ * taille, ce qui => big pb pour l'itération  que le forum a eu du mal à
+ * me faire comprendre... donc plutôt ceci:*/
 vector<double> notesSur20(1,0);  /* je déclare un tableau dynamique de taille
                                   * 1 et de  valeur 0  */
- int i(0); // je déclare la variable d'itération
- double moyenne(0); // je déclare la variable moyenne
- double note ; // je déclare la variable note qui répondra au cout ci-dessous
- char OuiNon; // pour ligne 60
+ int i(0); 
+ double moyenne(0); 
+ double note ; 
+ char OuiNon; 
  // boucle for pour entrer les notes:
   for(int i=0; i<notesSur20.size(); ++i)
-    /* au départ de cette boucle, si déclaration ligne 12, donc  i=0, déjà un
+    /* au départ de cette boucle, si déclaration ligne 40, donc  i=0, déjà un
     * truc curieux: i doit être < à la taille du tableau qui à ce moment est
     * zéro: donc ça ne peut pas marcher. Il faut: déclarer le tableau au moins
-    * de taille 1: ligne 14 : ainsi la boucle commence avec i=0 et size=1 */
+    * de taille 1: ligne 47 : ainsi la boucle commence avec i=0 et size=1 */
     {
-     // cout<<"donne une note sur 20 : "; cin >> note;  // l'utilisateur tape sa 
-note
-     /* je remplace la ligne ci-dessus par: */
+     /* cout<<"donne une note sur 20 : "; cin >> note;  /* l'utilisateur tape sa 
+note */
+      // je remplace la ligne ci-dessus par l'idée du forum : 
      if ( read_choice( note ) )
       {
         cout << "Vous avez entré : " << note << " sur 20 " << '\n';
@@ -65,9 +68,9 @@ tapes n" << endl;
       }
         char OuiNon;
       cin >> OuiNon;
-      if (OuiNon ='o')  // j'avais oublié les guillemets simples
+      if (OuiNon ='o')  
        {
-         ++i;
+         ++i;  // là, cuis pas sûr de mon coup; si ça foire, voir ici
        }
       else
       {
@@ -81,25 +84,14 @@ tapes n" << endl;
 */
      cout <<" ce qui fait "<< notesSur20.size() -1 <<" notes entrées."<<endl;
      /* ça marche jusque là; l'a fallu que je rajoute -1 pour que ce soit vrai,
-      * à cause de la déclaration ligne 14 du tableau avec taille 1, case = 0;
+      * à cause de la déclaration ligne 47 du tableau avec taille 1, case = 0;
       * pour ci-dessous, je suppose qu'il faut une autre boucle for ? */
-    /* Oui mais auparavant, il y a un pb: mon job ne sait que me demander 
-     * d'entrer des notes... il ne sait jamais quand c'est fini; dixit ternel 
-     * et donc il ne passe jamais au for suivant: calcul des moyennes...
-     * Alors quand se termine cette boucle ? Faudra poser la question: */
-     /* cout << "Est-ce la dernière note ?" << endl; / qui => réponse booléenne.
-     * En fait, faut aussi considérer que l'usager tape n'importe quoi, soit
-     * pour rigoler, soit pour signifier que sa liste est terminée; pour cela:
-     * pour cela, Winjerome me donne un conseil très interessant par lien:
-     * http://cpp.developpez.com/faq/cpp/?page=Manipulation-de-la-
-     * console#Comment-verifier-les-valeurs-saisies-avec-cin que j'essaie
-     * d'intégrer ici: OK, c'est bon!!! chouette. Maintenant: */
 
   // autre boucle d'itération for parcourant toutes les cases du tableau:
   for(int i=0; i<notesSur20.size(); ++i)
      {
       moyenne += notesSur20 [i]; /* dans la variable moyenne, += on ajoute
-                                 * les valeurs contenues dans le tableau */
+				* les valeurs contenues dans le tableau */ 
      }
  // puis, boucle terminée,  on en sort et /= on divise cette somme
    moyenne /= notesSur20.size();  // par la taille du tableau
