@@ -2,37 +2,36 @@
 #include <vector> // pour tableaux dynamiques
 #include <limits> // pour la fonction read_choice
 
-using namespace std;  /* houla!!! ce using namespace std; avant la fonction
+// moyenneDesValeursEntrees2
+// Calcul de la moyenne des valeurs contenues dans un tableau (dynamique)
+using namespace std;  /*  ce using namespace std; le mettre avant la fonction
                        * sinon il me balance devant le cout de cette fonction
                        * ceci: error: 'cout' was not declared in this scope */
 
-// moyenneDesValeursEntrees2
-// Calcul de la moyenne des valeurs contenues dans un tableau (dynamique)
-
-/* ci-dessous la fonction read_choice qui va servir à filtrer les fantaisies que
-* pourrait mettre l'usager; exemple: on lui demande une note sur 20 et il envoie
-* 25 ou bien azerty... Pour cette fonction qui va se servir de numeric_limits:
-* ajouter en haut include <limits> */
+/* ci-dessous la fonction read_choice que le forum de developpez.com m'a
+*  conseilléé: elle va servir à filtrer les fantaisies que pourrait mettre
+* l'usager; exemple: on lui demande une note sur 20 et il envoie 25 ou bien
+* azerty... Pour cette fonction qui va se servir de numeric_limits: ajouter
+* en haut include <limits> */
 bool read_choice( double & N )
 {
   cout << "Entrez une note entre 0 et 20 : " ;
- /* ERROR surprise! 'cout' was not declared in this scope
-  * Pourtant je n'ai pas oublié le #include <iostream> !! ?? donc j'ai déclaré !!
-  * << est un opérateur de flux (sortant) */
   while ( ! ( cin >> N ) || N < 0 || N > 20 )
      {
-      if ( cin.eof() )
+      if ( cin.eof() )  // explique-moi
         {
-	// ^D  (^Z sous windows); Fin du flux d'entree !
+
 	return false;
         }
       else if ( cin.fail() )
         {
          cout << "Saisie incorrecte, c'est pas bien ! recommence : ";
+         // ce qu'il me dit lorsque je tape abcd puis, dessous, ça nettoie
          cin.clear();
          // cin.clear()  c'est pour effacer les bits d'erreurs
          cin.ignore( numeric_limits<streamsize>::max(), '\n' );
-         /* cin.ignore ci-dessus pour supprimer la ligne erronée dans le buffer */
+         /* cin.ignore ci-dessus pour supprimer la ligne erronée dans le buffer
+*/
         }
       else
          {
@@ -48,48 +47,35 @@ int main()
 {
   // Déclarations des variables dont je vais avoir besoin:
     vector<double> notesSur20; // un tableau vide nommé notesSur20
+    int taille; // nombre de copies corrigées =  taille du tableau
     double note;
     double moyenne(0);
+    bool ok(true);
 
-  /* Demander à l'usager d'entrer une par une les notes; a) pour cela je vais
-   * utiliser dès maintenant la fonction read_choice; oui mais cette fonction
-   * va ne servir qu'une fois,pour la première note. Le tableau aura donc une
-   * taille 1; b) pour que l'usager répète l'opération jusqu'à plus notes, avec
-   * des push_back() successifs, va falloir une boucle for : donc a):*/
-   if (read_choice(note))
-    {
-     notesSur20.push_back(note);
-     cout << "Tu viens de mettre " << note << " /20"<< endl;
-    }
-/* Déjà essayer jusqu'ici: oui, ça marche!! on a donc mis une note dans une case
- * du tableau. Passons à la phase b : */
-   for(int i(0); i<notesSur20.size(); ++i)
-    /* quand cette boucle for va commencer, ce sera avec i(0), la première case
-     * et i=0 sera bien inférieur à la taille du tableau qui est déjà 1 */
+ /* Faute d'avoir trouvé  un moyen d'arrêter l'entrée des notes par un bool,
+  * vais essayer ainsi: */
+    cout << "combien de copies avez-vous corrigées ?  ";
+    cin >> taille ;
+    // cette variable taille à la place de notesSur20.size dans la boucle for
+
+  /* Demander à l'usager d'entrer une par une les notes:*/
+   for(int i(0); i<taille; ++i)
      {
-      // et là, je remets la fonction read_choice:
       if (read_choice(note))
         {
           notesSur20.push_back(note);
           cout << "Tu viens de mettre " << note << " /20"<< endl;
-          cout << " Si c'est la dernière note à entrer, tu tapes "
-          cin >> machinBool;
-             if (machinBool false)
-              {
-               // tu continues la boucle for donc tu dis quoi ??
-              }
-              else
-               {
-                 // la taille du tableau est:
-                 // et on calcule la moyenne
-               }
+          moyenne += notesSur20 [i];     // j'additionne toutes les notes
+          cout<< "Vériff des additions: "<< moyenne << endl;
+          // là il trouve que 18+12+0 = 6
+          moyenne /= taille; /* l'addition dans moyenne est divisée
+                              * par la taille du tableau  */
+          // là, il trouve que (18+12+0)/3 = 2/20 !! yen a marre! 
         }
-      /* cette boucle for fonctionne mais on ne peut pas en sortir... zut !!
-       * Comment lui dire que c'est fini ??? Utiliser un bool? ligne 76 */
-     }
+  cout << " La moyenne de toutes ces notes est: " << moyenne<<" /20"<< endl;
 
+     }
 
    return 0;
 
 }
-
