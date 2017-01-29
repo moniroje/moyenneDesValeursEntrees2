@@ -42,39 +42,36 @@ bool read_choice( double & N )
 }  // fin de la fonction
 
 
+
 int main()
 {
   // Déclarations des variables dont je vais avoir besoin:
     vector<double> notesSur20; // un tableau vide nommé notesSur20
-    int taille; // nombre de copies corrigées =  taille du tableau
+    int taille; // nombre de copies corrigées =  taille du tableau terminé
     double note;
     double moyenne(0);
-    bool ok(true);
-
+    
  /* Faute d'avoir trouvé  un moyen d'arrêter l'entrée des notes par un bool,
-  * vais essayer ainsi: */
+  * je vais essayer ainsi: */
     cout << "combien de copies avez-vous corrigées ?  ";
     cin >> taille ;
-    // cette variable taille à la place de notesSur20.size dans la boucle for
 
   /* Demander à l'usager d'entrer une par une les notes:*/
-   for(int i(0); i<taille; ++i)
+   for(int i(0); i<notesSur20.size(); ++i)
      {
       if (read_choice(note))
         {
           notesSur20.push_back(note);
           cout << "Tu viens de mettre " << note << " /20"<< endl;
           moyenne += notesSur20 [i];     // j'additionne toutes les notes
-          cout<< "Vériff de l'addition: bizarre!  "<< moyenne << endl;
-          /* là, il déconne: 3 notes de 10; son addition = 14.4444 */
+          cout<< "Vériff de l'addition: "<< moyenne << endl;
+	  if (notesSur20.size() = taille)
+	    {
+	      moyenne /= taille; /* l'addition dans moyenne est divisée
+                                  * par la taille finale du tableau  */
+              cout << " La moyenne de toutes ces notes est: " << moyenne <<" /20"<< endl;
+	    }
         }
-  moyenne /= taille; /* l'addition dans moyenne est divisée
-                      * par la taille du tableau  */
-  cout << " La moyenne de toutes ces notes est: " << moyenne<<" /20"<< endl;
-  /* pour 3 notes de 10, au lieu de trouver 10, il trouve 4.81481 ! il a bu ! */
-
      }
-
-   return 0;
-
+  return 0;
 }
