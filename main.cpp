@@ -4,7 +4,10 @@
 
 // moyenneDesValeursEntrees2
 // Calcul de la moyenne des valeurs contenues dans un tableau (dynamique)
-using namespace std; 
+using namespace std;  /*  ce using namespace std; le mettre avant la fonction
+                       * sinon il me balance devant le cout de cette fonction
+                       * ceci: error: 'cout' was not declared in this scope */
+
 /* ci-dessous la fonction read_choice que le forum de developpez.com m'a
 *  conseilléé: elle va servir à filtrer les fantaisies que pourrait mettre
 * l'usager; exemple: on lui demande une note sur 20 et il envoie 25 ou bien
@@ -44,16 +47,20 @@ bool read_choice( double & N ) // ça marchait mais linux5623 n'aime pas
 
 int main()
 {
+  // Déclarations des variables dont je vais avoir besoin:
     vector<double> notesSur20; // un tableau vide nommé notesSur20
     int taille; // nombre de copies corrigées =  taille du tableau terminé
     double note;
     double moyenne(0);
+
  /* Faute d'avoir trouvé  un moyen d'arrêter l'entrée des notes par un bool,
   * je vais essayer ainsi: */
     cout << "combien de copies avez-vous corrigées ?  ";
-    cin >> taille ;  // ce qui va être entré sera la taille finale du tableau
-  /* Demander à l'usager d'entrer une par une les notes: zut!! ça ne marche plus !*/
-   for(int i = 0; i<notesSur20.size(); ++i)
+    cin >> taille ;
+
+  /* Demander à l'usager d'entrer une par une les notes:*/
+   // for(int i = 0; i<notesSur20.size(); ++i)
+   for(int i = 0; i<=taille; ++i)
      {
       if (read_choice(note))  // ça marchait mais linux5623 corrige par:
       // if (read_choice(&note))  // linux5623
@@ -62,21 +69,19 @@ int main()
           cout << "Tu viens de mettre " << note << " /20"<< endl;
           moyenne += notesSur20 [i];     // j'additionne toutes les notes
           cout<< "Vériff de l'addition: "<< moyenne << endl;
-    	  if (notesSur20.size() == taille)
-         /* ERROR: lvalue required as left operand of assignment  parce que
-          * j'ai écrit ci-dessus: = alors qu'il fallait == */
-	        {
-             moyenne /= taille; /* l'addition dans moyenne est divisée
-                                 * par la taille finale du tableau  */
-             cout << " La moyenne de toutes ces notes est: " << moyenne <<" /20"<< endl;
-	        }
-	      }
         }
+      else
+        {
+         moyenne /= taille; /* l'addition dans moyenne est divisée
+                             * par la taille finale du tableau  */
+         cout << " La moyenne de toutes ces notes est: " << moyenne <<" /20"<< endl;
+        }
+     }
+
   return 0;
 }
-/* Bon, là, chuis perdu!! mon code marchait!!! avec le pb qu'il faisait des additions
- * et des divisions fausses.
- * A vouloir arranger ça, j'ai rajouté une boucle if (ligne 65)où j'ai mis le calcul
- * de la moyenne ce qui a => le job fonctionne en me demandant le nb de copies et .. s'arrête!!
- * Comme je ne me souviens plus comment c'était quand ça marchait avec des calculs faux,
- là, je ne sais plus quoi faire... */
+/* Le job fonctionne mais, si je dis q'il y a 3 copies, chacune notée 10, il 
+ * enregistre 4 notes, si je mets 10 encore, il calcule bien l'addition à 40
+ * puis le job s'arrête!! donc d'abord il enregistre une note en plus, il 
+ * additionne le tout et 2° le job se termine sans avoir fait la moyenne !
+ * C'est quoi ce binz ?? */
