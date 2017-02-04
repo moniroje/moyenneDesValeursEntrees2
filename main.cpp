@@ -14,8 +14,9 @@ using namespace std;  /*  ce using namespace std; le mettre avant la fonction
 * azerty... Pour cette fonction qui va se servir de numeric_limits: ajouter
 * en haut include <limits> */
 bool read_choice( double & N ) // ça marchait mais linux5623 n'aime pas
-/* bool read_choice( double * N) * selon linux5623 : oui mais ça => ERROR en ligne 21:
-                               * no match for operator>> (operand types are std::_ */
+/* bool read_choice( double * N) * selon linux5623 : oui mais ça => ERROR
+                                 * no match for operator>> (operand types are
+                                 * std::_ */
 {
   cout << "Entrez une note entre 0 et 20 : " ;
   while ( ! ( cin >> N ) || N < 0 || N > 20 )
@@ -54,13 +55,18 @@ int main()
     double moyenne(0);
 
  /* Faute d'avoir trouvé  un moyen d'arrêter l'entrée des notes par un bool,
-  * je vais essayer ainsi: */
+  * je vais plutôt essayer ainsi: */
     cout << "combien de copies avez-vous corrigées ?  ";
     cin >> taille ;
 
   /* Demander à l'usager d'entrer une par une les notes:*/
    // for(int i = 0; i<notesSur20.size(); ++i)
-   for(int i = 0; i<=taille; ++i)
+   /* for(int i = 0; i<=taille; ++i)  * Le job fonctionne mais, si je dis
+    * q'il y a 3 copies, chacune notée 10, il enregistre 4 notes, si je mets
+    * 10 encore, il calcule bien l'addition à 40 puis le job s'arrête!! donc
+    * d'abord il enregistre une note en plus, il  additionne le tout et 2°
+    * le job se termine sans avoir fait la moyenne ! C'est quoi ce binz ?? */
+    for(int i = 0; i< taille; ++i)
      {
       if (read_choice(note))  // ça marchait mais linux5623 corrige par:
       // if (read_choice(&note))  // linux5623
@@ -68,20 +74,18 @@ int main()
           notesSur20.push_back(note);
           cout << "Tu viens de mettre " << note << " /20"<< endl;
           moyenne += notesSur20 [i];     // j'additionne toutes les notes
-          cout<< "Vériff de l'addition: "<< moyenne << endl;
-        }
-      else
-        {
-         moyenne /= taille; /* l'addition dans moyenne est divisée
-                             * par la taille finale du tableau  */
-         cout << " La moyenne de toutes ces notes est: " << moyenne <<" /20"<< endl;
         }
      }
-
+   // if (notesSur20.size()=taille)
+    /* ERROR: lvalue required as left operand of assignment pour ci-dessus!!!
+     * note c++990: Common error. You're using assignments, not tests.
+     * Use "==" instead of "=" */
+     if (notesSur20.size()==taille)
+     {
+      moyenne /= taille; /* l'addition dans moyenne est divisée
+                          * par la taille finale du tableau  */
+      cout << " La moyenne de toutes ces notes est: " << moyenne <<" /20"<< endl;
+     }
   return 0;
 }
-/* Le job fonctionne mais, si je dis q'il y a 3 copies, chacune notée 10, il 
- * enregistre 4 notes, si je mets 10 encore, il calcule bien l'addition à 40
- * puis le job s'arrête!! donc d'abord il enregistre une note en plus, il 
- * additionne le tout et 2° le job se termine sans avoir fait la moyenne !
- * C'est quoi ce binz ?? */
+
